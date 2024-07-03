@@ -168,3 +168,7 @@ bin/
 
 # matplotlib
 share/man/man1/ttx.1
+
+
+# VS Code
+.vscode/
