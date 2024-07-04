@@ -1,4 +1,4 @@
-from mydeeplearning.perceptron import AND, OR, NAND
+from mydeeplearning.perceptron import AND, OR, NAND, XOR
 
 
 def test_AND():
@@ -20,3 +20,10 @@ def test_NAND():
     assert NAND(1, 0) == 1
     assert NAND(0, 1) == 1
     assert NAND(1, 1) == 0
+
+
+def test_XOR():
+    assert XOR(0, 0) == 0
+    assert XOR(1, 0) == 1
+    assert XOR(0, 1) == 1
+    assert XOR(1, 1) == 0
