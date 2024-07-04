@@ -12,3 +12,8 @@ import numpy
 def step_function(x):
     """ステップ関数"""
     return numpy.array(x > 0, dtype=numpy.int16)
+
+
+def relu(x):
+    """ReLU関数"""
+    return numpy.maximum(0, x)
