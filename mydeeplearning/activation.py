@@ -17,3 +17,8 @@ def step_function(x):
 def relu(x):
     """ReLU関数"""
     return numpy.maximum(0, x)
+
+
+def sigmoid(x):
+    """シグモイド関数"""
+    return 1 / (1 + numpy.exp(-x))
