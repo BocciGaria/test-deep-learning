@@ -165,6 +165,7 @@ cython_debug/
 # virtualenv
 pyvenv.cfg
 bin/
+Scripts/
 
 # matplotlib
 share/man/man1/ttx.1
