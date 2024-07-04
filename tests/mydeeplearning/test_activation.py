@@ -1,6 +1,13 @@
 import numpy
 
-from mydeeplearning.activation import step_function, relu, sigmoid
+from mydeeplearning.activation import identity_function, step_function, relu, sigmoid
+
+
+def test_identity_function():
+    assert identity_function(1) == 1
+    assert numpy.array_equal(
+        identity_function(numpy.array([-1, 0, 1])), numpy.array([-1, 0, 1])
+    )
 
 
 def test_step_function():

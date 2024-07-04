@@ -9,6 +9,11 @@
 import numpy
 
 
+def identity_function(x):
+    """恒等関数"""
+    return x
+
+
 def step_function(x):
     """ステップ関数"""
     return numpy.array(x > 0, dtype=numpy.int16)
