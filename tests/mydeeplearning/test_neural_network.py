@@ -1,6 +1,6 @@
 import numpy
 
-from mydeeplearning.activation import sigmoid, softmax
+from mydeeplearning.activation import identity_function, sigmoid, softmax
 from mydeeplearning.neural_network import NeuralNetwork, Layer
 
 
@@ -21,6 +21,21 @@ def test_forward_layer():
     y = l.forward([1.0, 0.5])
     assert numpy.allclose(y, [0.76852478, 0.92414182, 0.97811873])
 
+
+def test_forward_multiple_layers():
+    weight1 = [[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]]
+    weight2 = [[0.1, 0.4], [0.2, 0.5], [0.3, 0.6]]
+    weight3 = [[0.1, 0.3], [0.2, 0.4]]
+    bias1 = [0.1, 0.2, 0.3]
+    bias2 = [0.1, 0.2]
+    bias3 = [0.1, 0.2]
+    l1 = Layer(weight1, bias1, sigmoid)
+    l2 = Layer(weight2, bias2, sigmoid)
+    l3 = Layer(weight3, bias3, identity_function)
+    l1.set_next_layer(l2)
+    l2.set_next_layer(l3)
+    y = l1.forward([1.0, 0.5])
+    assert numpy.allclose(y, [0.31682708, 0.69627909])
 
 
 def test_add_hidden_layer():
