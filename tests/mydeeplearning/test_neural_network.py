@@ -34,6 +34,28 @@ def test_forward_layer():
     assert numpy.allclose(y, [0.76852478, 0.92414182, 0.97811873])
 
 
+def test_forward_bad_layer():
+    weight = [[1, 1, 1], [1, 1, 1]]
+    bias = [1, 1]
+    l = Layer(weight, bias)
+    try:
+        l.forward([1, 1])
+        assert False
+    except RuntimeError as e:
+        assert (
+            str(e)
+            == "The length did not match between the weights and the input or the bias."
+        )
+
+
+def test_connect_layers(layers):
+    layers[0].connect(layers[1])
+    layers[1].connect(layers[2])
+    assert layers[0].len_forward == 3
+    assert layers[1].len_forward == 2
+    assert layers[2].len_forward == 1
+
+
 def test_forward_multiple_layers(layers):
     layers[0].connect(layers[1])
     layers[1].connect(layers[2])
@@ -41,16 +63,10 @@ def test_forward_multiple_layers(layers):
     assert numpy.allclose(y, [0.31682708, 0.69627909])
 
 
-def test_get_remaining_forwarding_length(layers):
-    layers[0].connect(layers[1])
-    layers[1].connect(layers[2])
-    assert layers[0].len_forward == 3
-
-
 def test_add_hidden_layers(layers):
     net = NeuralNetwork()
     net.add(*layers)
-    assert net.dim == 3
+    assert net.ndim == 3
 
 
 def test_add_hidden_layers_one_by_one(layers):
@@ -58,7 +74,7 @@ def test_add_hidden_layers_one_by_one(layers):
     net.add(layers[0])
     net.add(layers[1])
     net.add(layers[2])
-    assert net.dim == 3
+    assert net.ndim == 3
 
 
 def test_forward_neural_network(layers):

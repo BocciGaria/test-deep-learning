@@ -16,7 +16,7 @@ class Layer:
 
     _nl: "Layer" = None
 
-    def __init__(self, weight, bias, activation) -> None:
+    def __init__(self, weight, bias, activation=identity_function) -> None:
         """
         ニューラルネットワークを構成する層を生成する
 
@@ -46,12 +46,16 @@ class Layer:
         numpy.ndarray
             出力値（ニューロンが１つでない限り配列）
         """
-        a = numpy.dot(x, self._w) + self._b
-        z = self._h(a)
+        try:
+            a = numpy.dot(x, self._w) + self._b
+        except ValueError:
+            raise RuntimeError(
+                "The length did not match between the weights and the input or the bias."
+            )
         if self._nl is not None:
-            return self._nl.forward(z)
+            return self._nl.forward(self._h(a))
         else:
-            return z
+            return self._h(a)
 
     def connect(self, layer) -> None:
         """フォワード時の伝達先層を接続する"""
@@ -111,7 +115,7 @@ class NeuralNetwork(Layer):
             previous = next
 
     @property
-    def dim(self) -> int:
+    def ndim(self) -> int:
         """ネットワークの次元数
         ３層ネットワークであれば３が得られる
         """
