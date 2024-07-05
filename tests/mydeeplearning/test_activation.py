@@ -6,7 +6,8 @@ from mydeeplearning.activation import (identity_function, step_function, relu, s
 def test_identity_function():
     assert identity_function(1) == 1
     assert numpy.array_equal(
-        identity_function(numpy.array([-1, 0, 1])), numpy.array([-1, 0, 1])
+        identity_function(numpy.array([-1, 0, 1])),
+        [-1, 0, 1]
     )
 
 
@@ -18,8 +19,7 @@ def test_step_function():
 
 def test_step_function_array():
     out = step_function(numpy.array([0.1, 0, -0.1]))
-    result = out == numpy.array([1, 0, 0])
-    assert result.all()
+    assert numpy.array_equal(out, [1, 0, 0])
 
 
 def test_relu():
@@ -31,8 +31,7 @@ def test_relu():
 
 def test_relu_array():
     out = relu(numpy.array([0.1, 1.1, 0, -0.1]))
-    result = out == numpy.array([0.1, 1.1, 0, 0])
-    assert result.all()
+    assert numpy.array_equal(out, [0.1, 1.1, 0, 0])
 
 
 def test_sigmoid():
@@ -43,10 +42,10 @@ def test_sigmoid():
 
 
 def test_sigmoid_array():
-    out = sigmoid(numpy.array([-1, 0, 1, 2]))
-    assert numpy.allclose(out, numpy.array([0.26894142, 0.5, 0.73105858, 0.88079708]))
+    out = sigmoid([-1, 0, 1, 2])
+    assert numpy.allclose(out, [0.26894142, 0.5, 0.73105858, 0.88079708])
 
 
 def test_softmax():
     out = softmax([0.3, 2.9, 4.0])
-    assert numpy.allclose(out, numpy.array([0.01821127, 0.24519181, 0.73659691]))
+    assert numpy.allclose(out, [0.01821127, 0.24519181, 0.73659691])

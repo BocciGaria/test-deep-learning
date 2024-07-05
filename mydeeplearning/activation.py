@@ -26,7 +26,8 @@ def relu(x):
 
 def sigmoid(x):
     """シグモイド関数"""
-    return 1 / (1 + numpy.exp(-x))
+    nda_x = numpy.array(x)
+    return 1 / (1 + numpy.exp(-nda_x))
 
 
 def softmax(x):
