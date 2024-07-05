@@ -51,9 +51,17 @@ def test_get_remaining_forwarding_length(layers):
     assert layers[0].remaining_forwarding_len == 3
 
 
-def test_add_hidden_layer(layers):
+def test_add_hidden_layers(layers):
     net = NeuralNetwork()
     net.add(*layers)
+    assert net.dim == 3
+
+
+def test_add_hidden_layers_one_by_one(layers):
+    net = NeuralNetwork()
+    net.add(layers[0])
+    net.add(layers[1])
+    net.add(layers[2])
     assert net.dim == 3
 
 

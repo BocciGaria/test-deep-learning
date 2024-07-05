@@ -30,6 +30,13 @@ class Layer:
         else:
             return self._nl.remaining_forwarding_len + 1
 
+    @property
+    def last_layer(self) -> "Layer":
+        if self._nl is None:
+            return self
+        else:
+            return self._nl.last_layer
+
 
 class NeuralNetwork(Layer):
     """ニューラルネットワーク"""
@@ -45,7 +52,7 @@ class NeuralNetwork(Layer):
         if self._nl is None:
             self.forwarding_to(layers[0])
         else:
-            self._nl.forwarding_to(layers[0])
+            self.last_layer.forwarding_to(layers[0])
         previous = layers[0]
         for next in layers[1:]:
             previous.forwarding_to(next)
