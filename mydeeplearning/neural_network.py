@@ -81,20 +81,11 @@ class Layer:
 class NeuralNetwork(Layer):
     """ニューラルネットワーク"""
 
-    def __init__(self, fianl_activation=identity_function) -> None:
+    def __init__(self) -> None:
         """
         ニューラルネットワークを生成する
-
-        Parameters
-        ----------
-        final_activation : function
-            ネットワークの出力層のニューロンで実行される活性化関数
         """
         super().__init__(1, 0, identity_function)
-        self._fa = fianl_activation
-
-    def forward(self, x) -> numpy.ndarray:
-        return self._fa(super().forward(x))
 
     def add(self, *layers: Layer) -> None:
         """隠し層を追加する

@@ -78,7 +78,7 @@ def test_add_hidden_layers_one_by_one(layers):
 
 
 def test_forward_neural_network(layers):
-    net = NeuralNetwork(softmax)
+    net = NeuralNetwork()
     net.add(*layers)
     y = net.forward([1.0, 0.5])
-    assert numpy.allclose(y, [0.40625907, 0.59374093])
+    assert numpy.allclose(y, [0.31682708, 0.69627909])
