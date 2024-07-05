@@ -1,13 +1,20 @@
 import numpy
 
 
+class Layer:
+    """ネットワークの層"""
+    def __init__(self, weight, bias, activation) -> None:
+        self.__w = numpy.array(weight)
+        self.__b = numpy.array(bias)
+        self.__h = activation
+
+    def forward(self, x) -> numpy.ndarray:
+        a = numpy.dot(x, self.__w) + self.__b
+        return self.__h(a)
+
+
 class NeuralNetwork:
     """ニューラルネットワーク"""
 
-    def __init__(self, initial_input) -> None:
-        self.__initial_input = initial_input
-
-    @property
-    def initial_input(self) -> numpy.ndarray:
-        """入力層への入力値"""
-        return self.__initial_input
+    def forward(self, x) -> numpy.ndarray:
+        return numpy.array(x)
