@@ -16,12 +16,8 @@ def layers():
     return (
         Layer(weight1, bias1, sigmoid),
         Layer(weight2, bias2, sigmoid),
-        Layer(weight3, bias3, identity_function)
+        Layer(weight3, bias3, identity_function),
     )
-
-
-def test_generate_network():
-    net = NeuralNetwork()
 
 
 def test_generate_layer():
@@ -39,16 +35,16 @@ def test_forward_layer():
 
 
 def test_forward_multiple_layers(layers):
-    layers[0].forwarding_to(layers[1])
-    layers[1].forwarding_to(layers[2])
+    layers[0].connect(layers[1])
+    layers[1].connect(layers[2])
     y = layers[0].forward([1.0, 0.5])
     assert numpy.allclose(y, [0.31682708, 0.69627909])
 
 
 def test_get_remaining_forwarding_length(layers):
-    layers[0].forwarding_to(layers[1])
-    layers[1].forwarding_to(layers[2])
-    assert layers[0].remaining_forwarding_len == 3
+    layers[0].connect(layers[1])
+    layers[1].connect(layers[2])
+    assert layers[0].len_forward == 3
 
 
 def test_add_hidden_layers(layers):

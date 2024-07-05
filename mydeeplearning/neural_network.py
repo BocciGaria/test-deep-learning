@@ -13,6 +13,7 @@ from mydeeplearning.activation import identity_function
 
 class Layer:
     """ネットワークの層"""
+
     _nl: "Layer" = None
 
     def __init__(self, weight, bias, activation) -> None:
@@ -52,17 +53,17 @@ class Layer:
         else:
             return z
 
-    def forwarding_to(self, layer) -> None:
-        """フォワード時の伝達先層を設定する"""
+    def connect(self, layer) -> None:
+        """フォワード時の伝達先層を接続する"""
         self._nl = layer
 
     @property
-    def remaining_forwarding_len(self) -> int:
+    def len_forward(self) -> int:
         """フォワード時の残りの伝達回数（出力方向にある層の数に等しい）"""
         if self._nl is None:
             return 1
         else:
-            return self._nl.remaining_forwarding_len + 1
+            return self._nl.len_forward + 1
 
     @property
     def last_layer(self) -> "Layer":
@@ -101,12 +102,12 @@ class NeuralNetwork(Layer):
             追加する隠し層（複数追加する場合は引数に指定した順に追加される）
         """
         if self._nl is None:
-            self.forwarding_to(layers[0])
+            self.connect(layers[0])
         else:
-            self.last_layer.forwarding_to(layers[0])
+            self.last_layer.connect(layers[0])
         previous = layers[0]
         for next in layers[1:]:
-            previous.forwarding_to(next)
+            previous.connect(next)
             previous = next
 
     @property
@@ -114,4 +115,4 @@ class NeuralNetwork(Layer):
         """ネットワークの次元数
         ３層ネットワークであれば３が得られる
         """
-        return self.remaining_forwarding_len - 1
+        return self.len_forward - 1
