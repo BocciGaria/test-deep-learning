@@ -1,6 +1,6 @@
 import numpy
 
-from mydeeplearning.activation import identity_function, step_function, relu, sigmoid
+from mydeeplearning.activation import (identity_function, step_function, relu, sigmoid, softmax)
 
 
 def test_identity_function():
@@ -45,3 +45,8 @@ def test_sigmoid():
 def test_sigmoid_array():
     out = sigmoid(numpy.array([-1, 0, 1, 2]))
     assert numpy.allclose(out, numpy.array([0.26894142, 0.5, 0.73105858, 0.88079708]))
+
+
+def test_softmax():
+    out = softmax([0.3, 2.9, 4.0])
+    assert numpy.allclose(out, numpy.array([0.01821127, 0.24519181, 0.73659691]))

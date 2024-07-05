@@ -2,7 +2,7 @@
 
 作成日   : 2024/07/04
 作成者   : BocciGaria
-最終更新日: 2024/07/04
+最終更新日: 2024/07/05
 最終更新者: BocciGaria
 """
 
@@ -27,3 +27,11 @@ def relu(x):
 def sigmoid(x):
     """シグモイド関数"""
     return 1 / (1 + numpy.exp(-x))
+
+
+def softmax(x):
+    """ソフトマックス関数"""
+    max_x = numpy.max(x)
+    normalized_x = x - max_x # オーバーフロー対策
+    exp_x = numpy.exp(normalized_x)
+    return exp_x / numpy.sum(exp_x)
