@@ -32,3 +32,10 @@ def test_cross_entropy_error(good_data, bad_data):
     assert Decimal("0.51082546") == Decimal(error).quantize(Decimal("1e-8"))
     error = cross_entropy_error(bad_data["y"], bad_data["t"])
     assert Decimal("2.30258409") == Decimal(error).quantize(Decimal("1e-8"))
+
+
+def test_cross_entropy_error_batch(good_data, bad_data):
+    y = [good_data["y"], bad_data["y"]]
+    t = [good_data["t"], bad_data["t"]]
+    error = cross_entropy_error(y, t)
+    assert Decimal("1.40670478") == Decimal(error).quantize(Decimal("1e-8"))
