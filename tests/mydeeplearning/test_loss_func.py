@@ -25,3 +25,10 @@ def test_sum_squared_error(good_data, bad_data):
     assert Decimal("0.0975") == Decimal(error).quantize(Decimal("1e-4"))
     error = sum_squared_error(bad_data["y"], bad_data["t"])
     assert Decimal("0.5975") == Decimal(error).quantize(Decimal("1e-4"))
+
+
+def test_cross_entropy_error(good_data, bad_data):
+    error = cross_entropy_error(good_data["y"], good_data["t"])
+    assert Decimal("0.51082546") == Decimal(error).quantize(Decimal("1e-8"))
+    error = cross_entropy_error(bad_data["y"], bad_data["t"])
+    assert Decimal("2.30258409") == Decimal(error).quantize(Decimal("1e-8"))

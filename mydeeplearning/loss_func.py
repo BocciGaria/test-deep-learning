@@ -14,3 +14,11 @@ def sum_squared_error(y, t):
     nda_y = numpy.array(y)
     nda_t = numpy.array(t)
     return numpy.sum((nda_y - nda_t) ** 2) * 0.5
+
+
+def cross_entropy_error(y, t):
+    """交差エントロピー誤差"""
+    delta = 1e-7
+    nda_y = numpy.array(y)
+    nda_t = numpy.array(t)
+    return -numpy.sum(nda_t * numpy.log(nda_y + delta))
