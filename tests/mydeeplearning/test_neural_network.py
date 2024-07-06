@@ -1,7 +1,7 @@
 import numpy
 import pytest
 
-from mydeeplearning.activation import identity_function, sigmoid, softmax
+from mydeeplearning.activation_func import identity_function, sigmoid, softmax
 from mydeeplearning.neural_network import NeuralNetwork, Layer
 
 

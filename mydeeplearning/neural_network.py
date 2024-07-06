@@ -8,7 +8,7 @@
 
 import numpy
 
-from mydeeplearning.activation import identity_function
+from mydeeplearning.activation_func import identity_function
 
 
 class Layer:

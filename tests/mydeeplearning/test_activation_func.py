@@ -1,6 +1,6 @@
 import numpy
 
-from mydeeplearning.activation import (identity_function, step_function, relu, sigmoid, softmax)
+from mydeeplearning.activation_func import (identity_function, step_function, relu, sigmoid, softmax)
 
 
 def test_identity_function():
