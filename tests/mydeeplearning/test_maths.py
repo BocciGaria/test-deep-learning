@@ -1,7 +1,12 @@
 from decimal import Decimal
 import numpy
 
-from mydeeplearning.maths import numerical_diff, sum_of_square, numerical_gradient
+from mydeeplearning.maths import (
+    numerical_diff,
+    sum_of_square,
+    numerical_gradient,
+    gradient_descent,
+)
 
 
 def test_numerical_diff():
@@ -30,3 +35,10 @@ def test_numerical_gradient_batch():
     x = [[3.0, 4.0], [0.0, 2.0], [3.0, 0.0]]
     gradient = numerical_gradient(sum_of_square, x)
     assert numpy.allclose([[6.0, 8.0], [0.0, 4.0], [6.0, 0.0]], gradient)
+
+
+def test_gradient_descent():
+    gradient = gradient_descent(sum_of_square, [-3.0, 4.0], 0.1, 100)
+    assert numpy.allclose(
+        [-6.11110793e-10, 8.14814391e-10], gradient, rtol=0.0, atol=1e-18
+    )

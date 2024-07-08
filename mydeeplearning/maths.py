@@ -80,3 +80,29 @@ def numerical_gradient(f, x):
     for i in range(result.shape[0]):
         result[i] = numerical_gradient(f, x[i])
     return result
+
+
+def gradient_descent(f, initial_x, lr, step):
+    """勾配降下法
+
+    Parameters
+    ----------
+    f : function
+        複数のパラメータを持つ関数
+    initial_x : array
+        関数fに最初に与えるパラメータ群
+    lr : float
+        勾配を小さくするためのステップごとのパラメータ更新量
+    step : int
+        パラメータの更新回数
+
+    Returns
+    -------
+    array[float]
+        適切な更新量によって十分な回数更新を行った場合、関数fのパラメータの極小値が得られる
+    """
+    x = numpy.array(initial_x)
+    for _ in range(step):
+        gradient = numerical_gradient(f, x)
+        x -= gradient * lr
+    return x
