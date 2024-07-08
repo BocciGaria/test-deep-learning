@@ -24,3 +24,9 @@ def test_numerical_gradient():
     assert numpy.allclose([0.0, 4.0], gradient)
     gradient = numerical_gradient(sum_of_square, [3.0, 0.0])
     assert numpy.allclose([6.0, 0.0], gradient)
+
+
+def test_numerical_gradient_batch():
+    x = [[3.0, 4.0], [0.0, 2.0], [3.0, 0.0]]
+    gradient = numerical_gradient(sum_of_square, x)
+    assert numpy.allclose([[6.0, 8.0], [0.0, 4.0], [6.0, 0.0]], gradient)
