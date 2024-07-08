@@ -9,6 +9,25 @@
 import numpy
 
 
+def sum_of_square(x):
+    """二乗和
+
+    Parameters
+    ----------
+    x : array
+        数値配列
+
+    Returns
+    -------
+    float
+    """
+    square = numpy.array(x) ** 2
+    if square.ndim == 1:
+        return numpy.sum(square)
+    else:
+        return numpy.sum(square, axis=1)
+
+
 def numerical_diff(f, x):
     """数値微分
     ひとつのパラメータを持つ関数fのx地点における数値微分を取得する

@@ -1,7 +1,7 @@
 from decimal import Decimal
 import numpy
 
-from mydeeplearning.maths import numerical_diff, numerical_gradient
+from mydeeplearning.maths import numerical_diff, sum_of_square, numerical_gradient
 
 
 def test_numerical_diff():
@@ -10,11 +10,17 @@ def test_numerical_diff():
     assert Decimal("0.3000") == Decimal(numerical_diff(f, 10)).quantize(Decimal("1e-4"))
 
 
+def test_sum_of_square():
+    assert Decimal("25.0000") == Decimal(sum_of_square([3.0, 4.0])).quantize(
+        Decimal("1e-4")
+    )
+    assert numpy.array_equal([25.0000, 7.8125], sum_of_square([[3.0, 4.0], [1.25, 2.5]]))
+
+
 def test_numerical_gradient():
-    f = lambda x: numpy.sum(x[0]**2 + x[1]**2)
-    gradient = numerical_gradient(f, [3.0, 4.0])
+    gradient = numerical_gradient(sum_of_square, [3.0, 4.0])
     assert numpy.allclose([6.0, 8.0], gradient)
-    gradient = numerical_gradient(f, [0.0, 2.0])
+    gradient = numerical_gradient(sum_of_square, [0.0, 2.0])
     assert numpy.allclose([0.0, 4.0], gradient)
-    gradient = numerical_gradient(f, [3.0, 0.0])
+    gradient = numerical_gradient(sum_of_square, [3.0, 0.0])
     assert numpy.allclose([6.0, 0.0], gradient)
