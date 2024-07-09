@@ -8,7 +8,8 @@
 
 import numpy
 
-from mydeeplearning.activation_func import identity_function
+from mydeeplearning.activation_func import identity_function, softmax
+from mydeeplearning.loss_func import cross_entropy_error
 
 
 class Layer:
@@ -104,6 +105,25 @@ class NeuralNetwork(Layer):
         for next in layers[1:]:
             previous.connect(next)
             previous = next
+
+    def loss(self, x, t):
+        """損失関数の値
+        交差エントロピー誤差による損失を取得数
+
+        Parameters
+        ----------
+        x : array
+            ニューラルネットワークへの入力
+        t : array
+            ont-hot形式の教師データ
+
+        Returns
+        -------
+        float
+            損失
+        """
+        y = softmax(self.forward(x))
+        return cross_entropy_error(y, t)
 
     @property
     def ndim(self) -> int:

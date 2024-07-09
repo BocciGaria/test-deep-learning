@@ -1,3 +1,4 @@
+from decimal import Decimal
 import numpy
 import pytest
 
@@ -82,3 +83,10 @@ def test_forward_neural_network(layers):
     net.add(*layers)
     y = net.forward([1.0, 0.5])
     assert numpy.allclose(y, [0.31682708, 0.69627909])
+
+
+def test_neural_network_loss(layers):
+    net = NeuralNetwork()
+    net.add(*layers)
+    loss = net.loss([1.0, 0.5], [0, 1])
+    assert Decimal("0.5213") == Decimal(loss).quantize(Decimal("1e-4"))
