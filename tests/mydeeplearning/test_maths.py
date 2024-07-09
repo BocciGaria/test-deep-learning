@@ -31,9 +31,9 @@ def test_numerical_gradient():
     assert numpy.allclose([6.0, 0.0], gradient)
 
 
-def test_numerical_gradient_batch():
-    x = [[3.0, 4.0], [0.0, 2.0], [3.0, 0.0]]
-    gradient = numerical_gradient(sum_of_square, x)
+def test_multidimentional_numerical_gradient():
+    f = lambda params: numpy.sum([sum_of_square(x) for x in params])
+    gradient = numerical_gradient(f, [[3.0, 4.0], [0.0, 2.0], [3.0, 0.0]])
     assert numpy.allclose([[6.0, 8.0], [0.0, 4.0], [6.0, 0.0]], gradient)
 
 

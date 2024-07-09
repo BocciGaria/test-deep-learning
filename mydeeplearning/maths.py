@@ -57,28 +57,25 @@ def numerical_gradient(f, x):
     f : function
         複数のパラメータを持つ関数
     x : array
-        関数fへのパラメータ群
+        関数fへのパラメータ
 
     Returns
     -------
     array[float]
-        fにおけるx地点の勾配
+        関数fのパラメータxにおける出力値の勾配
     """
     result = numpy.zeros_like(x)
-    if result.ndim == 1:
-        h = 1e-4
-        nda_x = numpy.array(x)
-        for idx in range(nda_x.size):
-            tmp_upper_x = nda_x.copy()
-            tmp_upper_x[idx] = tmp_upper_x[idx] + h
-            y_upper = f(tmp_upper_x)
-            tmp_lower_x = nda_x.copy()
-            tmp_lower_x[idx] = tmp_lower_x[idx] - h
-            y_lower = f(tmp_lower_x)
-            result[idx] = (y_upper - y_lower) / (h * 2)
-        return result
-    for i in range(result.shape[0]):
-        result[i] = numerical_gradient(f, x[i])
+    h = 1e-4
+    nda_x = numpy.array(x)
+    iter = numpy.nditer(nda_x, flags=["multi_index"], op_flags=["readwrite"])
+    while not iter.finished:
+        index = iter.multi_index
+        increased = nda_x.copy()
+        increased[index] += h
+        decreased = nda_x.copy()
+        decreased[index] -= h
+        result[index] = (f(increased) - f(decreased)) / (2 * h)
+        iter.iternext()
     return result
 
 
