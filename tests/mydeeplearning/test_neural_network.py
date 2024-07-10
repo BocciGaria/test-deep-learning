@@ -90,3 +90,10 @@ def test_neural_network_loss(layers):
     net.add(*layers)
     loss = net.loss([1.0, 0.5], [0, 1])
     assert Decimal("0.5213") == Decimal(loss).quantize(Decimal("1e-4"))
+
+
+def test_neural_network_accuracy(layers):
+    net = NeuralNetwork()
+    net.add(*layers)
+    accuracy = net.accuracy([[1.0, 0.5], [2.0, 3.5]], [[0, 1], [1, 0]])
+    assert Decimal("0.5") == Decimal(accuracy).quantize(Decimal("1e-1"))

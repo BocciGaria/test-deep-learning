@@ -125,6 +125,25 @@ class NeuralNetwork(Layer):
         y = softmax(self.forward(x))
         return cross_entropy_error(y, t)
 
+    def accuracy(self, x, t):
+        """精度を取得する
+        フォワード処理をバッチ実行し出力の精度を求める
+
+        Parameters
+        ----------
+        x : numpy.array
+            ニューラルネットワークへの入力群（2次元配列）
+        t : array
+            one-hot形式の教師データ群（2次元配列）
+
+        Returns
+        -------
+        float
+            精度
+        """
+        y = self.forward(x)
+        return numpy.sum(numpy.argmax(y, axis=1) == numpy.argmax(t, axis=1)) / len(x)
+
     @property
     def ndim(self) -> int:
         """ネットワークの次元数
