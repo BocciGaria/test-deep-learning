@@ -10,6 +10,7 @@ import numpy
 
 from mydeeplearning.activation_func import identity_function, softmax
 from mydeeplearning.loss_func import cross_entropy_error
+from mydeeplearning.maths import numerical_gradient_dirty
 
 
 class Layer:
@@ -30,8 +31,8 @@ class Layer:
         activation : function
             この層のニューロンで実行する活性化関数
         """
-        self._w = numpy.array(weight)
-        self._b = numpy.array(bias)
+        self.W = numpy.array(weight)
+        self.b = numpy.array(bias)
         self._h = activation
 
     def forward(self, x) -> numpy.ndarray:
@@ -48,7 +49,7 @@ class Layer:
             出力値（ニューロンが１つでない限り配列）
         """
         try:
-            a = numpy.dot(x, self._w) + self._b
+            a = numpy.dot(x, self.W) + self.b
         except ValueError:
             raise RuntimeError(
                 "The length did not match between the weights and the input or the bias."
@@ -87,6 +88,7 @@ class NeuralNetwork(Layer):
         ニューラルネットワークを生成する
         """
         super().__init__(1, 0, identity_function)
+        self._layers = []
 
     def add(self, *layers: Layer) -> None:
         """隠し層を追加する
@@ -97,6 +99,7 @@ class NeuralNetwork(Layer):
         *layers : tuple[Layer]
             追加する隠し層（複数追加する場合は引数に指定した順に追加される）
         """
+        self._layers.extend(layers)
         if self._nl is None:
             self.connect(layers[0])
         else:
@@ -143,6 +146,32 @@ class NeuralNetwork(Layer):
         """
         y = self.forward(x)
         return numpy.sum(numpy.argmax(y, axis=1) == numpy.argmax(t, axis=1)) / len(x)
+
+    def gradient(self, x, t):
+        """パラメータに対する勾配を取得する
+
+        Parameters
+        ----------
+        x : array
+            ニューラルネットワークへの入力群
+        t : array
+            one-hot形式の教師データ群
+
+        Returns
+        -------
+        array
+            勾配
+        """
+        result = []
+        f = lambda p: self.loss(x, t)
+        for l in self._layers:
+            result.append(
+                {
+                    "W": numerical_gradient_dirty(f, l.W),
+                    "t": numerical_gradient_dirty(f, l.b),
+                }
+            )
+        return result
 
     @property
     def ndim(self) -> int:

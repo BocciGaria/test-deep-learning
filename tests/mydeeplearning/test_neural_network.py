@@ -21,6 +21,11 @@ def layers():
     )
 
 
+@pytest.fixture
+def net():
+    return NeuralNetwork()
+
+
 def test_generate_layer():
     weight = [[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]]
     bias = [1.0, 2.0, 3.0]
@@ -64,36 +69,57 @@ def test_forward_multiple_layers(layers):
     assert numpy.allclose(y, [0.31682708, 0.69627909])
 
 
-def test_add_hidden_layers(layers):
-    net = NeuralNetwork()
+def test_add_hidden_layers(net, layers):
     net.add(*layers)
     assert net.ndim == 3
 
 
-def test_add_hidden_layers_one_by_one(layers):
-    net = NeuralNetwork()
+def test_add_hidden_layers_one_by_one(net, layers):
     net.add(layers[0])
     net.add(layers[1])
     net.add(layers[2])
     assert net.ndim == 3
 
 
-def test_forward_neural_network(layers):
-    net = NeuralNetwork()
+def test_forward_neural_network(net, layers):
     net.add(*layers)
     y = net.forward([1.0, 0.5])
     assert numpy.allclose(y, [0.31682708, 0.69627909])
 
 
-def test_neural_network_loss(layers):
-    net = NeuralNetwork()
+def test_neural_network_loss(net, layers):
     net.add(*layers)
     loss = net.loss([1.0, 0.5], [0, 1])
     assert Decimal("0.5213") == Decimal(loss).quantize(Decimal("1e-4"))
 
 
-def test_neural_network_accuracy(layers):
-    net = NeuralNetwork()
+def test_neural_network_accuracy(net, layers):
     net.add(*layers)
     accuracy = net.accuracy([[1.0, 0.5], [2.0, 3.5]], [[0, 1], [1, 0]])
     assert Decimal("0.5") == Decimal(accuracy).quantize(Decimal("1e-1"))
+
+
+def test_neural_network_gradient(net, layers):
+    net.add(*layers)
+    gradient = net.gradient([1.0, 0.5], [0, 1])
+    assert numpy.allclose(
+        [
+            [-0.00186764, -0.00243357, -0.00268174],
+            [-0.00093382, -0.00121678, -0.00134087],
+        ],
+        gradient[0]["W"],
+    )
+    assert numpy.allclose([-0.00186764, -0.00243357, -0.00268174], gradient[0]["t"])
+    assert numpy.allclose(
+        [
+            [-0.01092468, -0.00824053],
+            [-0.01270752, -0.00958533],
+            [-0.01426836, -0.01076268],
+        ],
+        gradient[1]["W"],
+    )
+    assert numpy.allclose([-0.01901789, -0.01434527], gradient[1]["t"])
+    assert numpy.allclose(
+        [[0.25441944, -0.25441944], [0.31323004, -0.31323004]], gradient[2]["W"]
+    )
+    assert numpy.allclose([0.406259, -0.406259], gradient[2]["t"])
