@@ -6,6 +6,7 @@ from mydeeplearning.maths import (
     sum_of_square,
     numerical_gradient,
     gradient_descent,
+    numerical_gradient_dirty,
 )
 
 
@@ -35,6 +36,19 @@ def test_multidimentional_numerical_gradient():
     f = lambda params: numpy.sum([sum_of_square(x) for x in params])
     gradient = numerical_gradient(f, [[3.0, 4.0], [0.0, 2.0], [3.0, 0.0]])
     assert numpy.allclose([[6.0, 8.0], [0.0, 4.0], [6.0, 0.0]], gradient)
+
+
+def test_numerical_gradient_dirty():
+    f = lambda params: numpy.sum([sum_of_square(x) for x in params])
+    gradient = numerical_gradient_dirty(
+        f, numpy.array([[3.0, 4.0], [0.0, 2.0], [3.0, 0.0]])
+    )
+    assert numpy.allclose([[6.0, 8.0], [0.0, 4.0], [6.0, 0.0]], gradient)
+    try:
+        numerical_gradient_dirty(f, [[3.0, 4.0], [0.0, 2.0], [3.0, 0.0]])
+        assert False
+    except ValueError as e:
+        assert str(e).startswith("The type of x should be numpy.ndarray ")
 
 
 def test_gradient_descent():

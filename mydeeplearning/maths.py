@@ -70,11 +70,50 @@ def numerical_gradient(f, x):
     iter = numpy.nditer(nda_x, flags=["multi_index"], op_flags=["readwrite"])
     while not iter.finished:
         index = iter.multi_index
-        increased = nda_x.copy()
-        increased[index] += h
-        decreased = nda_x.copy()
-        decreased[index] -= h
-        result[index] = (f(increased) - f(decreased)) / (2 * h)
+        original_value = nda_x[index]
+        nda_x[index] = original_value + h
+        increaded_y = f(nda_x)
+        nda_x[index] = original_value - h
+        decreased_y = f(nda_x)
+        nda_x[index] = original_value
+        result[index] = (increaded_y - decreased_y) / (2 * h)
+        iter.iternext()
+    return result
+
+
+def numerical_gradient_dirty(f, x):
+    """勾配（メモリ効率化版）
+    複数のパラメータを持つ関数fのx地点における偏微分を取得する。
+    メモリ効率化のため引数xへの副作用を含む。
+
+    Parameters
+    ----------
+    f : function
+        複数のパラメータを持つ関数
+    x : numpy.ndarray
+        関数fへのパラメータ
+
+    Returns
+    -------
+    array[float]
+        関数fのパラメータxにおける出力値の勾配
+    """
+    if type(x) is not numpy.ndarray:
+        raise ValueError(
+            "The type of x should be numpy.ndarray but '" + str(type(x)) + "'."
+        )
+    result = numpy.zeros_like(x)
+    h = 1e-4
+    iter = numpy.nditer(x, flags=["multi_index"], op_flags=["readwrite"])
+    while not iter.finished:
+        index = iter.multi_index
+        original_value = x[index]
+        x[index] = original_value + h
+        increased_y = f(x)
+        x[index] = original_value - h
+        decreased_y = f(x)
+        x[index] = original_value
+        result[index] = (increased_y - decreased_y) / (2 * h)
         iter.iternext()
     return result
 
