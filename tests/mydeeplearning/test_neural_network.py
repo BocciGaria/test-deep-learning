@@ -109,7 +109,7 @@ def test_neural_network_gradient(net, layers):
         ],
         gradient[0]["W"],
     )
-    assert numpy.allclose([-0.00186764, -0.00243357, -0.00268174], gradient[0]["t"])
+    assert numpy.allclose([-0.00186764, -0.00243357, -0.00268174], gradient[0]["b"])
     assert numpy.allclose(
         [
             [-0.01092468, -0.00824053],
@@ -118,8 +118,17 @@ def test_neural_network_gradient(net, layers):
         ],
         gradient[1]["W"],
     )
-    assert numpy.allclose([-0.01901789, -0.01434527], gradient[1]["t"])
+    assert numpy.allclose([-0.01901789, -0.01434527], gradient[1]["b"])
     assert numpy.allclose(
         [[0.25441944, -0.25441944], [0.31323004, -0.31323004]], gradient[2]["W"]
     )
-    assert numpy.allclose([0.406259, -0.406259], gradient[2]["t"])
+    assert numpy.allclose([0.406259, -0.406259], gradient[2]["b"])
+
+
+def test_update_parameters(net, layers):
+    net.add(*layers)
+    gradient = net.gradient([1.0, 0.5], [0, 1])
+    learning_rate = 0.1
+    net.update(learning_rate)
+    y = net.forward([0.2, 0.4])
+    assert numpy.allclose([0.23248021, 0.76642482], y)

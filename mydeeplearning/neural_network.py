@@ -168,10 +168,29 @@ class NeuralNetwork(Layer):
             result.append(
                 {
                     "W": numerical_gradient_dirty(f, l.W),
-                    "t": numerical_gradient_dirty(f, l.b),
+                    "b": numerical_gradient_dirty(f, l.b),
                 }
             )
+        self._latest_gradient = result
         return result
+
+    def update(self, lr) -> None:
+        """パラメータの更新
+        現在のパラメータに対する勾配と学習率を使用してパラメータを更新する
+
+        Parameters
+        ----------
+        lr : float
+            学習率
+        """
+        if self._latest_gradient is None:
+            raise RuntimeError(
+                "You should calculate at least once the gradient for current parameters"
+            )
+        for i in range(len(self._layers)):
+            self._layers[i].W -= self._latest_gradient[i]["W"] * lr
+            self._layers[i].b -= self._latest_gradient[i]["b"] * lr
+        self._latest_gradient = None
 
     @property
     def ndim(self) -> int:
