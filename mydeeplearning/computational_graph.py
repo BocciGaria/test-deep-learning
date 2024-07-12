@@ -1,12 +1,21 @@
-class MulNode:
-    """乗算ノード"""
+from abc import ABC, abstractmethod
+
+
+class ComputationalGraphNode:
+    """計算グラフノード"""
 
     def forward(self, x, y):
         """順伝播"""
         self._x = x
         self._y = y
-        return x * y
+        return self._compute(x, y)
 
+    @abstractmethod
+    def _compute(self, x, y):
+        """順伝播の計算を行う"""
+        raise NotImplementedError()
+
+    @abstractmethod
     def backward(self, dout):
         """逆伝播
 
@@ -20,4 +29,24 @@ class MulNode:
         any, any
             ノードへの順伝播の2つの入力の微分
         """
+        raise NotImplementedError()
+
+
+class MulNode(ComputationalGraphNode):
+    """乗算ノード"""
+
+    def _compute(self, x, y):
+        return x * y
+
+    def backward(self, dout):
         return dout * self._y, dout * self._x
+
+
+class AddNode(ComputationalGraphNode):
+    """加算ノード"""
+
+    def _compute(self, x, y):
+        return x + y
+
+    def backward(self, dout):
+        return dout * 1, dout * 1
