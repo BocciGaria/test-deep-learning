@@ -129,6 +129,6 @@ def test_update_parameters(net, layers):
     net.add(*layers)
     gradient = net.gradient([1.0, 0.5], [0, 1])
     learning_rate = 0.1
-    net.update(learning_rate)
+    net.update(gradient, learning_rate)
     y = net.forward([0.2, 0.4])
     assert numpy.allclose([0.23248021, 0.76642482], y)
