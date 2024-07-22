@@ -1,6 +1,3 @@
-from abc import ABC, abstractmethod
-
-
 class ComputationalGraphNode:
     """計算グラフノード"""
 
@@ -10,12 +7,10 @@ class ComputationalGraphNode:
         self._y = y
         return self._compute(x, y)
 
-    @abstractmethod
     def _compute(self, x, y):
         """順伝播の計算を行う"""
         raise NotImplementedError()
 
-    @abstractmethod
     def backward(self, dout):
         """逆伝播
 
