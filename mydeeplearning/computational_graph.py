@@ -1,29 +1,16 @@
 class ComputationalGraphNode:
     """計算グラフノード"""
 
-    def forward(self, x, y):
+    def forward(self, *args, **kwargs):
         """順伝播"""
-        self._x = x
-        self._y = y
-        return self._compute(x, y)
+        return self._compute(*args, **kwargs)
 
-    def _compute(self, x, y):
-        """順伝播の計算を行う"""
+    def _compute(self, *args, **kwargs):
+        """順伝播の計算処理"""
         raise NotImplementedError()
 
     def backward(self, dout):
-        """逆伝播
-
-        Parameters
-        ----------
-        dout : any
-            逆伝搬の上流から伝わってきた微分
-
-        Returns
-        -------
-        any, any
-            ノードへの順伝播の2つの入力の微分
-        """
+        """逆伝播"""
         raise NotImplementedError()
 
 
@@ -31,6 +18,8 @@ class MulNode(ComputationalGraphNode):
     """乗算ノード"""
 
     def _compute(self, x, y):
+        self._x = x
+        self._y = y
         return x * y
 
     def backward(self, dout):
@@ -41,6 +30,8 @@ class AddNode(ComputationalGraphNode):
     """加算ノード"""
 
     def _compute(self, x, y):
+        self._x = x
+        self._y = y
         return x + y
 
     def backward(self, dout):
