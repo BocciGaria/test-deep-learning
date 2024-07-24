@@ -32,3 +32,20 @@ class SigmoidLayer(ComputationalGraphNode):
 
     def backward(self, dout):
         return dout * (1.0 - self._out) * self._out
+
+
+class AffineLayer(ComputationalGraphNode):
+    """Affineレイヤ"""
+
+    def __init__(self, weight, bias) -> None:
+        self.W = weight
+        self.b = bias
+
+    def _compute(self, x):
+        self.x = x
+        return numpy.dot(x, self.W) + self.b
+
+    def backward(self, dout):
+        self.dout_W = numpy.dot(self.x.T, dout)
+        self.dout_b = numpy.sum(dout, axis=0)
+        return numpy.dot(dout, self.W.T)
