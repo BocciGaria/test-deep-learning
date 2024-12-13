@@ -1,14 +1,21 @@
 import numpy
+import os
+import sys
 
-from mydeeplearning.activation_func import (identity_function, step_function, relu, sigmoid, softmax)
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+from mydeeplearning.activation_func import (
+    identity_function,
+    step_function,
+    relu,
+    sigmoid,
+    softmax,
+)
 
 
 def test_identity_function():
     assert identity_function(1) == 1
-    assert numpy.array_equal(
-        identity_function(numpy.array([-1, 0, 1])),
-        [-1, 0, 1]
-    )
+    assert numpy.array_equal(identity_function(numpy.array([-1, 0, 1])), [-1, 0, 1])
 
 
 def test_step_function():

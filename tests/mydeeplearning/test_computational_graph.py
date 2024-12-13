@@ -1,10 +1,33 @@
 import math
-import pytest
+import os
+import sys
 
-from mydeeplearning.computational_graph import MulNode, AddNode
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+from mydeeplearning.computational_graph import ComputationalGraphNode, MulNode, AddNode
 
 
-def test_mul_layer_forward():
+def test_computational_graph_node_forward():
+    n = ComputationalGraphNode()
+    try:
+        n.forward()
+    except NotImplementedError:
+        assert True
+    else:
+        assert False
+
+
+def test_computational_graph_node_backward():
+    n = ComputationalGraphNode()
+    try:
+        n.backward(0)
+    except NotImplementedError:
+        assert True
+    else:
+        assert False
+
+
+def test_mul_node_forward():
     n_1 = MulNode()
     n_2 = MulNode()
     an_1 = n_1.forward(100.0, 2.0)
@@ -13,7 +36,7 @@ def test_mul_layer_forward():
     assert math.isclose(220.0, an_2)
 
 
-def test_mul_layer_backward():
+def test_mul_node_backward():
     n_1 = MulNode()
     n_2 = MulNode()
     an_1 = n_1.forward(100.0, 2.0)

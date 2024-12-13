@@ -1,6 +1,10 @@
 from decimal import Decimal
 import numpy
+import os
 import pytest
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from mydeeplearning.activation_func import identity_function, sigmoid, softmax
 from mydeeplearning.neural_network import NeuralNetwork, Layer

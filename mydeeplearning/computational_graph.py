@@ -3,10 +3,6 @@ class ComputationalGraphNode:
 
     def forward(self, *args, **kwargs):
         """順伝播"""
-        return self._compute(*args, **kwargs)
-
-    def _compute(self, *args, **kwargs):
-        """順伝播の計算処理"""
         raise NotImplementedError()
 
     def backward(self, dout):
@@ -17,7 +13,7 @@ class ComputationalGraphNode:
 class MulNode(ComputationalGraphNode):
     """乗算ノード"""
 
-    def _compute(self, x, y):
+    def forward(self, x, y):
         self._x = x
         self._y = y
         return x * y
@@ -29,7 +25,7 @@ class MulNode(ComputationalGraphNode):
 class AddNode(ComputationalGraphNode):
     """加算ノード"""
 
-    def _compute(self, x, y):
+    def forward(self, x, y):
         self._x = x
         self._y = y
         return x + y

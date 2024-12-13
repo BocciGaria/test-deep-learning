@@ -9,10 +9,10 @@ class Layer(ComputationalGraphNode):
     pass
 
 
-class ReLULayer(Layer):
+class ReLULayer(ComputationalGraphNode):
     """ReLU(Rectified Linear Unit)レイヤ"""
 
-    def _compute(self, x):
+    def forward(self, x):
         self._mask = x <= 0
         out = x.copy()
         out[self._mask] = 0
@@ -26,7 +26,7 @@ class ReLULayer(Layer):
 class SigmoidLayer(ComputationalGraphNode):
     """Sigmoidレイヤ"""
 
-    def _compute(self, x):
+    def forward(self, x):
         self._out = 1 / (1 + numpy.exp(-x))
         return self._out
 
@@ -40,8 +40,11 @@ class AffineLayer(ComputationalGraphNode):
     def __init__(self, weight, bias) -> None:
         self.W = weight
         self.b = bias
+        self.x = None
+        self.dout_W = None
+        self.dout_b = None
 
-    def _compute(self, x):
+    def forward(self, x):
         self.x = x
         return numpy.dot(x, self.W) + self.b
 
