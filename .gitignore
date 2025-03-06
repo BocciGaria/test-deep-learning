@@ -81,6 +81,7 @@ target/
 # IPython
 profile_default/
 ipython_config.py
+share/man/man1/ipython.1
 
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
@@ -173,3 +174,7 @@ share/man/man1/ttx.1
 
 # VS Code
 .vscode/
+
+
+# Others
+data/images/
