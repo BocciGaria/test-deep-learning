@@ -3,7 +3,56 @@ import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-from mydeeplearning.perceptron import AND, OR, NAND, XOR
+from mydeeplearning.perceptron import perceptron, AND, OR, NAND, XOR
+
+
+def test_perceptron_guard_block():
+    try:
+        perceptron([1, [1]], [1, 1], 1)
+    except Exception as e:
+        assert (
+            "入力値または重みはnumpy.arrayで変換できる必要があります。" in e.__notes__
+        )
+    else:
+        assert False
+    try:
+        perceptron([1, 1], [[1], 1], 1)
+    except Exception as e:
+        assert (
+            "入力値または重みはnumpy.arrayで変換できる必要があります。" in e.__notes__
+        )
+    else:
+        assert False
+    try:
+        perceptron(1, [1, 1], 1)
+    except ValueError as e:
+        assert "入力値の次元数は1としてください。" in str(e)
+    else:
+        assert False
+    try:
+        perceptron([1, 1], [[1, 1], [1, 1]], 1)
+    except ValueError as e:
+        assert "入力値の次元数は1としてください。" in str(e)
+    else:
+        assert False
+    try:
+        perceptron([1, 2], [1, 1], 1)
+    except ValueError as e:
+        assert "入力値は[0, 1]のいずれかでなくてはなりません。" in str(e)
+    else:
+        assert False
+    try:
+        perceptron([1, 1], [1, 1], "a")
+    except Exception as e:
+        assert "入力値・重み・バイアスの組み合わせを確認してください。" in e.__notes__
+    else:
+        assert False
+    try:
+        perceptron([1, 1], [1, 1, 1], 1)
+    except Exception as e:
+        assert "入力値・重み・バイアスの組み合わせを確認してください。" in e.__notes__
+    else:
+        assert False
 
 
 def test_AND():
