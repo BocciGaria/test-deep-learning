@@ -17,7 +17,7 @@ def init_network():
 
 
 def forward(network, x):
-    """ニューラルネットワークのフォワード処理"""
+    """ニューラルネットワークの順方向伝播(forward propagation)"""
     W1, W2, W3 = network["W1"], network["W2"], network["W3"]
     b1, b2, b3 = network["b1"], network["b2"], network["b3"]
 
