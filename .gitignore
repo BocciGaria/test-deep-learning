@@ -178,5 +178,5 @@ share/man/man1/ttx.1
 
 # Others
 data/images/
-*.gz
-*.pkl
+mnist/*.gz
+mnist/*.pkl
