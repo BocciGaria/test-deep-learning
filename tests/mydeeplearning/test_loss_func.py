@@ -1,9 +1,5 @@
 import numpy as np
-import os
 import pytest
-import sys
-
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from mydeeplearning.loss_func import sum_squared_error, cross_entropy_error
 
