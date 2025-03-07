@@ -23,8 +23,7 @@ def sigmoid(x):
 
 def softmax(x):
     """ソフトマックス関数"""
-    max_x = np.max(x)
-    normalized_x = x - max_x  # オーバーフロー対策
+    normalized_x = x - np.max(x)  # オーバーフロー対策
     exp_x = np.exp(normalized_x)
     return exp_x / np.sum(exp_x)
 

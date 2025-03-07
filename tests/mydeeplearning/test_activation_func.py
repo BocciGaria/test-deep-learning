@@ -42,17 +42,20 @@ def test_relu_array():
 
 
 def test_sigmoid():
-    assert np.isclose(sigmoid(-1), 0.26894142)
+    assert np.isclose(sigmoid(-1), 0.26894142, atol=1e-8)
     assert sigmoid(0) == 0.5
-    assert np.isclose(sigmoid(1), 0.73105858)
-    assert np.isclose(sigmoid(2), 0.88079708)
+    assert np.isclose(sigmoid(1), 0.73105858, atol=1e-8)
+    assert np.isclose(sigmoid(2), 0.88079708, atol=1e-8)
 
 
 def test_sigmoid_array():
     out = sigmoid([-1, 0, 1, 2])
-    assert np.allclose(out, [0.26894142, 0.5, 0.73105858, 0.88079708])
+    assert np.allclose(out, [0.26894142, 0.5, 0.73105858, 0.88079708], atol=1e-8)
 
 
 def test_softmax():
     out = softmax([0.3, 2.9, 4.0])
-    assert np.allclose(out, [0.01821127, 0.24519181, 0.73659691])
+    assert np.allclose(out, [0.01821127, 0.24519181, 0.73659691], atol=1e-8)
+    out = softmax(np.random.random(10))
+    # assert np.sum(out) == 1.0 # 丁度1.0にならないことはままある。
+    assert np.isclose(np.sum(out), 1.0, atol=1e-8)
