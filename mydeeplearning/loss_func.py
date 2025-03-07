@@ -1,11 +1,3 @@
-"""損失関数
-
-作成日   : 2024/07/06
-作成者   : BocciGaria
-最終更新日: 2024/07/06
-最終更新者: BocciGaria
-"""
-
 import numpy
 
 
