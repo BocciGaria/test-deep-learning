@@ -1,12 +1,4 @@
-"""基本的な数学の公式
-
-作成日   : 2024/07/07
-作成者   : BocciGaria
-最終更新日: 2024/07/07
-最終更新者: BocciGaria
-"""
-
-import numpy
+import numpy as np
 
 
 def sum_of_square(x):
@@ -21,11 +13,11 @@ def sum_of_square(x):
     -------
     float
     """
-    square = numpy.array(x) ** 2
+    square = np.array(x) ** 2
     if square.ndim == 1:
-        return numpy.sum(square)
+        return np.sum(square)
     else:
-        return numpy.sum(square, axis=1)
+        return np.sum(square, axis=1)
 
 
 def numerical_diff(f, x):
@@ -64,10 +56,10 @@ def numerical_gradient(f, x):
     array[float]
         関数fのパラメータxにおける出力値の勾配
     """
-    result = numpy.zeros_like(x)
+    result = np.zeros_like(x)
     h = 1e-4
-    nda_x = numpy.array(x)
-    iter = numpy.nditer(nda_x, flags=["multi_index"], op_flags=["readwrite"])
+    nda_x = np.array(x)
+    iter = np.nditer(nda_x, flags=["multi_index"], op_flags=["readwrite"])
     while not iter.finished:
         index = iter.multi_index
         original_value = nda_x[index]
@@ -98,13 +90,13 @@ def numerical_gradient_dirty(f, x):
     array[float]
         関数fのパラメータxにおける出力値の勾配
     """
-    if type(x) is not numpy.ndarray:
+    if type(x) is not np.ndarray:
         raise ValueError(
             "The type of x should be numpy.ndarray but '" + str(type(x)) + "'."
         )
-    result = numpy.zeros_like(x)
+    result = np.zeros_like(x)
     h = 1e-4
-    iter = numpy.nditer(x, flags=["multi_index"], op_flags=["readwrite"])
+    iter = np.nditer(x, flags=["multi_index"], op_flags=["readwrite"])
     while not iter.finished:
         index = iter.multi_index
         original_value = x[index]
@@ -137,7 +129,7 @@ def gradient_descent(f, initial_x, lr, step):
     array[float]
         適切な更新量によって十分な回数更新を行った場合、関数fのパラメータの極小値が得られる
     """
-    x = numpy.array(initial_x)
+    x = np.array(initial_x)
     for _ in range(step):
         gradient = numerical_gradient(f, x)
         x -= gradient * lr
