@@ -130,6 +130,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+pyvenv.cfg
+bin/
+Scripts/
+CACHEDIR.TAG
 
 # Spyder project settings
 .spyderproject
@@ -162,11 +166,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-
-# virtualenv
-pyvenv.cfg
-bin/
-Scripts/
 
 # matplotlib
 share/man/man1/ttx.1
